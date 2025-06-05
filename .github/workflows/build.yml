@@ -1,0 +1,57 @@
+on:
+  push:
+
+name: Building ImageMagick
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.distro }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [ 'ubuntu-22-libcxx' ]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: build
+        run: |
+          docker build ${{ matrix.distro }} -t mybuild
+
+      - name: copy
+        run: |
+          docker run -d --name myrun mybuild
+          docker cp myrun:/root/usr/local/imagemagick.tar.gz .
+          docker stop myrun
+
+      - name: store
+        uses: actions/upload-artifact@v4
+        with:
+          name: imagemagick-${{ matrix.distro }}
+          path: imagemagick.tar.gz
+
+  release:
+    runs-on: ubuntu-latest
+    name: Store binaries as GitHub release
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download artifacts for deployment
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Rename files
+        run: |
+          mkdir assets;
+          for FILE in artifacts/*/*.tar.gz; do
+            cp -v $FILE "assets/$(basename $(dirname $FILE)).tar.gz";
+          done
+      - name: Release artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: assets/*
