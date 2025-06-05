@@ -35,7 +35,7 @@ RUN cd ImageMagick-6.9.13-25 && \
     --without-fontconfig --without-gslib --without-x \
     --disable-legacy-support --disable-hdri \
     --disable-openmp --without-modules --enable-zero-configuration \
-    --with-zlib --with-png --with-jpeg --with-tiff --with-xml &&\
+    --with-zlib --with-png --with-jpeg --with-tiff --with-xml --without-jbig &&\
     make &&\
     make DESTDIR="/root" install
 
