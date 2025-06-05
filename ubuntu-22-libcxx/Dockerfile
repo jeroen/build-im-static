@@ -30,7 +30,7 @@ RUN curl -LO https://www.imagemagick.org/archive/ImageMagick-6.9.13-25.tar.gz &&
     rm ImageMagick-6.9.13-25.tar.gz
 
 RUN cd ImageMagick-6.9.13-25 && \
-    CC="clang" CXX="clang++ -stdlib=libc++" \
+    CC="clang -fPIC" CXX="clang++ -stdlib=libc++ -fPIC" \
     ./configure --enable-static --disable-shared --disable-docs --disable-deprecated \
     --without-fontconfig --without-gslib --without-x \
     --disable-legacy-support --disable-hdri \
