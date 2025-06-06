@@ -1,8 +1,8 @@
-FROM fedora:42
+FROM fedora:40
 
 WORKDIR /root
 
-RUN dnf install -y libcxx-devel clang++ pkg-config libjpeg-devel libpng-devel libtiff-devel libxml2-devel fontconfig-devel awk make cmp
+RUN dnf install -y libcxx-devel clang pkg-config libjpeg-devel libpng-devel libtiff-devel libxml2-devel fontconfig-devel make
 
 # Mirror: https://github.com/ropensci/magick/releases/download/ImageMagick-6.9.13-25/ImageMagick-6.9.13-25.tar.gz
 RUN curl -LO https://www.imagemagick.org/archive/ImageMagick-6.9.13-25.tar.gz && \
