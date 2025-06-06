@@ -43,4 +43,5 @@ RUN cd /root/usr/local && \
     rm -R bin && \
     llvm-strip-20 -S lib/*.a &&\
     rm -f lib/*.la &&\
+    cp -Lv /usr/lib/x86_64-linux-gnu/libjpeg.a lib/ &&\
     tar czvf imagemagick.tar.gz include lib share etc
