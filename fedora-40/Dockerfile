@@ -2,6 +2,7 @@ FROM fedora:40
 
 WORKDIR /root
 
+# NB: Fedora builds against legacy libjpeg (libjpeg.so.62)
 RUN dnf install -y libcxx-devel clang pkg-config libjpeg-devel libpng-devel libtiff-devel libxml2-devel fontconfig-devel make
 
 # Mirror: https://github.com/ropensci/magick/releases/download/ImageMagick-6.9.13-25/ImageMagick-6.9.13-25.tar.gz

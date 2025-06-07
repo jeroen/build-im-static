@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        distro: [ 'ubuntu-22-libcxx', 'fedora-42', 'fedora-40', 'fedora-38']
+        distro: [ 'ubuntu-22', 'fedora-42', 'fedora-40', 'fedora-38']
     steps:
       - name: checkout
         uses: actions/checkout@v4
