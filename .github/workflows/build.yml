@@ -17,7 +17,7 @@ jobs:
         distro: [ 'ubuntu-22', 'fedora-42', 'fedora-40', 'fedora-38']
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: build
         run: |
@@ -30,7 +30,7 @@ jobs:
           docker stop myrun
 
       - name: store
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: imagemagick-${{ matrix.distro }}
           path: imagemagick.tar.gz
@@ -42,7 +42,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Download artifacts for deployment
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
       - name: Rename files
@@ -52,6 +52,6 @@ jobs:
             cp -v $FILE "assets/$(basename $(dirname $FILE)).tar.gz";
           done
       - name: Release artifacts
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: assets/*
