@@ -29,6 +29,10 @@ RUN curl -LO https://www.imagemagick.org/archive/ImageMagick-6.9.13-25.tar.gz &&
     tar xf ImageMagick-6.9.13-25.tar.gz && \
     rm ImageMagick-6.9.13-25.tar.gz
 
+# Do not use the libxml2 nano FTP/HTTP client: removed from libxml2 2.14/2.15, and magick
+# downloads URLs via the curl R package anyway.
+RUN sed -i -e "s/defined(LIBXML_FTP_ENABLED)/0/g" -e "s/defined(LIBXML_HTTP_ENABLED)/0/g" ImageMagick-6.9.13-25/coders/url.c
+
 RUN cd ImageMagick-6.9.13-25 && \
     CC="clang -fPIC" CXX="clang++ -stdlib=libc++ -fPIC" \
     ./configure --enable-static --disable-shared --disable-docs --disable-deprecated \
