@@ -24,8 +24,8 @@ RUN ln -s /usr/bin/clang-16 /usr/bin/clang && \
 # NB: Ubuntu builds against libturbojpeg (libjpeg.so.8)
 RUN apt-get install -y make pkg-config libjpeg8-dev libpng-dev libtiff-dev libxml2-dev
 
-# Mirror: https://github.com/ropensci/magick/releases/download/ImageMagick-6.9.13-25/ImageMagick-6.9.13-25.tar.gz
-RUN curl -LO https://www.imagemagick.org/archive/ImageMagick-6.9.13-25.tar.gz && \
+# Upstream archive is no longer available at imagemagick.org/archive, use our mirror
+RUN curl -fLO https://github.com/ropensci/magick/releases/download/ImageMagick-6.9.13-25/ImageMagick-6.9.13-25.tar.gz && \
     tar xf ImageMagick-6.9.13-25.tar.gz && \
     rm ImageMagick-6.9.13-25.tar.gz
 
