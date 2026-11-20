@@ -24,10 +24,14 @@ RUN ln -s /usr/bin/clang-16 /usr/bin/clang && \
 # NB: Ubuntu builds against libturbojpeg (libjpeg.so.8)
 RUN apt-get install -y make pkg-config libjpeg8-dev libpng-dev libtiff-dev libxml2-dev
 
-# Mirror: https://github.com/ropensci/magick/releases/download/ImageMagick-6.9.13-25/ImageMagick-6.9.13-25.tar.gz
-RUN curl -LO https://www.imagemagick.org/archive/ImageMagick-6.9.13-25.tar.gz && \
+# Upstream archive is no longer available at imagemagick.org/archive, use our mirror
+RUN curl -fLO https://github.com/ropensci/magick/releases/download/ImageMagick-6.9.13-25/ImageMagick-6.9.13-25.tar.gz && \
     tar xf ImageMagick-6.9.13-25.tar.gz && \
     rm ImageMagick-6.9.13-25.tar.gz
+
+# Do not use the libxml2 nano FTP/HTTP client: removed from libxml2 2.14/2.15, and magick
+# downloads URLs via the curl R package anyway.
+RUN sed -i -e "s/defined(LIBXML_FTP_ENABLED)/0/g" -e "s/defined(LIBXML_HTTP_ENABLED)/0/g" ImageMagick-6.9.13-25/coders/url.c
 
 RUN cd ImageMagick-6.9.13-25 && \
     CC="clang -fPIC" CXX="clang++ -stdlib=libc++ -fPIC" \
